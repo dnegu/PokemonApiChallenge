@@ -40,6 +40,7 @@ abstract class BaseFragment<VBinding : ViewBinding, VM : ViewModel> : Fragment()
         super.onViewCreated(view, savedInstanceState)
         setUpViews()
         observeData()
+        observeView()
     }
 
     open fun setUpViews() {}

@@ -6,28 +6,53 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.dnegu.pokemonapichallenge.R
+import androidx.navigation.fragment.findNavController
+import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonListBinding
+import com.dnegu.pokemonapichallenge.home.ui.event.PokemonListUIEvent
+import com.dnegu.pokemonapichallenge.home.utils.BaseFragment
 import com.dnegu.pokemonapichallenge.home.viewmodel.PokemonListViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
-class PokemonListFragment : Fragment() {
+@AndroidEntryPoint
+class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListViewModel>() {
 
-    companion object {
-        fun newInstance() = PokemonListFragment()
+    override fun getViewModelClass() = PokemonListViewModel::class.java
+    override fun getViewBinding() = FragmentPokemonListBinding.inflate(layoutInflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.listHistory.flowWithLifecycle(lifecycle).collectLatest { event ->
+                when(event){
+                    PokemonListUIEvent.ShowLoading -> {
+
+                    }
+                    PokemonListUIEvent.HideLoading -> {
+
+                    }
+                    PokemonListUIEvent.Error -> {
+
+                    }
+                    is PokemonListUIEvent.Success -> {
+                        val list = event.listHistory
+                        list.size
+                    }
+                }
+            }
+        }
     }
 
-    private lateinit var viewModel: PokemonListViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_pokemon_list, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PokemonListViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun observeView() {
+        super.observeView()
+        binding.btnInformation.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_pokemonListFragment_to_pokemonInformationFragment
+            )
+        }
     }
 
 }
