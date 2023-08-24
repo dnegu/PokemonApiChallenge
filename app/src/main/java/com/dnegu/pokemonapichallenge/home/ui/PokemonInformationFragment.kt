@@ -1,33 +1,28 @@
 package com.dnegu.pokemonapichallenge.home.ui
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.dnegu.pokemonapichallenge.R
+import androidx.fragment.app.activityViewModels
+import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonInformationBinding
+import com.dnegu.pokemonapichallenge.home.utils.BaseFragment
 import com.dnegu.pokemonapichallenge.home.viewmodel.PokemonInformationViewModel
+import com.dnegu.pokemonapichallenge.home.viewmodel.SharedViewModel
 
-class PokemonInformationFragment : Fragment() {
+class PokemonInformationFragment : BaseFragment<FragmentPokemonInformationBinding,PokemonInformationViewModel>() {
 
-    companion object {
-        fun newInstance() = PokemonInformationFragment()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    override fun getViewModelClass() = PokemonInformationViewModel::class.java
+    override fun getViewBinding() = FragmentPokemonInformationBinding.inflate(layoutInflater)
+
+    override fun setUpViews() = with(binding) {
+        super.setUpViews()
+
+        tvNamePokemon.text = sharedViewModel.uiState
+
+        sharedViewModel.uiPokemonInformationState.let{ information ->
+            tvBaseHappiness.text = information.base_happiness.toString()
+            tvColorPokemon.text = information.color.name
+            tvCaptureRate.text = information.capture_rate.toString()
+            tvGroupEgg.text = information.egg_groups.joinToString(", ") { it.name }
+        }
     }
-
-    private lateinit var viewModel: PokemonInformationViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_pokemon_information, container, false)
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PokemonInformationViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }
