@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_pokemon_api"
+    app:startDestination="@id/pokemonListFragment">
+
+    <fragment
+        android:id="@+id/pokemonListFragment"
+        android:name="com.dnegu.pokemonapichallenge.home.ui.PokemonListFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_pokemon_list">
+        <action
+            android:id="@+id/action_pokemonListFragment_to_pokemonInformationFragment"
+            app:destination="@id/pokemonInformationFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonInformationFragment"
+        android:name="com.dnegu.pokemonapichallenge.home.ui.PokemonInformationFragment"
+        android:label="fragment_new_book_courses"
+        tools:layout="@layout/fragment_pokemon_information">
+        <action
+            android:id="@+id/action_pokemonInformationFragment_to_pokemonEvolutionaryLineFragment"
+            app:destination="@id/pokemonEvolutionaryLineFragment" />
+        <action
+            android:id="@+id/action_pokemonInformationFragment_to_pokemonSkillsFragment"
+            app:destination="@id/pokemonSkillsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonEvolutionaryLineFragment"
+        android:name="com.dnegu.pokemonapichallenge.home.ui.PokemonEvolutionaryLineFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_pokemon_evolutionary_line">
+    </fragment>
+
+    <fragment
+        android:id="@+id/pokemonSkillsFragment"
+        android:name="com.dnegu.pokemonapichallenge.home.ui.PokemonSkillsFragment"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_pokemon_skills">
+    </fragment>
+
+    <action
+        android:id="@+id/goToPokemonListFragment"
+        app:destination="@id/pokemonListFragment" />
+</navigation>
