@@ -1,0 +1,6 @@
+package com.dnegu.pokemonapichallenge.home.data.model.response
+
+data class OfficialArtwork(
+    val front_default: String,
+    val front_shiny: String
+)

@@ -5,7 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonEvolutionChainResponse
 import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonInformationResponse
+import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonSkillsResponse
 import com.dnegu.pokemonapichallenge.home.ui.event.PokemonListUIEvent
 import com.dnegu.pokemonapichallenge.home.usecases.GetPokemonListUseCase
 import com.dnegu.pokemonapichallenge.home.utils.launch
@@ -28,8 +30,18 @@ constructor(
     private val uiPokemonInformationLiveData: LiveData<PokemonInformationResponse>
         get() = _uiPokemonInformationLiveData
 
+    private val _uiPokemonEvolutionChainLiveData = MutableLiveData<PokemonEvolutionChainResponse>()
+    private val uiPokemonEvolutionChainLiveData: LiveData<PokemonEvolutionChainResponse>
+        get() = _uiPokemonEvolutionChainLiveData
+
+    private val _uiPokemonSkillsLiveData = MutableLiveData<PokemonSkillsResponse>()
+    private val uiPokemonSkillsLiveData: LiveData<PokemonSkillsResponse>
+        get() = _uiPokemonSkillsLiveData
+
     val uiState: String get() = uiPokemonNameLiveData.value!!
     val uiPokemonInformationState: PokemonInformationResponse get() = uiPokemonInformationLiveData.value!!
+    val uiPokemonEvolutionChainState: PokemonEvolutionChainResponse get() = uiPokemonEvolutionChainLiveData.value!!
+    val uiPokemonSkillsState: PokemonSkillsResponse get() = uiPokemonSkillsLiveData.value!!
 
     fun setPokemonName(name: String) {
         _uiPokemonNameLiveData.value = name
@@ -37,5 +49,13 @@ constructor(
 
     fun setPokemonInformation(name: PokemonInformationResponse) {
         _uiPokemonInformationLiveData.value = name
+    }
+
+    fun setPokemonEvolutionChain(name: PokemonEvolutionChainResponse) {
+        _uiPokemonEvolutionChainLiveData.value = name
+    }
+
+    fun setPokemonSkills(name: PokemonSkillsResponse) {
+        _uiPokemonSkillsLiveData.value = name
     }
 }
