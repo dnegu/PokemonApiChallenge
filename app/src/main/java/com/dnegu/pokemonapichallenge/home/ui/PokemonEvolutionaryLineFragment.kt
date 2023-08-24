@@ -1,33 +1,64 @@
 package com.dnegu.pokemonapichallenge.home.ui
 
-import androidx.lifecycle.ViewModelProvider
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dnegu.pokemonapichallenge.R
+import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonEvolutionaryLineBinding
+import com.dnegu.pokemonapichallenge.home.adapter.PokemonEvolutionaryAdapter
+import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonList
+import com.dnegu.pokemonapichallenge.home.utils.BaseFragment
 import com.dnegu.pokemonapichallenge.home.viewmodel.PokemonEvolutionaryLineViewModel
+import com.dnegu.pokemonapichallenge.home.viewmodel.SharedViewModel
 
-class PokemonEvolutionaryLineFragment : Fragment() {
+class PokemonEvolutionaryLineFragment :
+    BaseFragment<FragmentPokemonEvolutionaryLineBinding,PokemonEvolutionaryLineViewModel>(), PokemonEvolutionaryAdapter.OnButtonClickListener {
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
-    companion object {
-        fun newInstance() = PokemonEvolutionaryLineFragment()
+    private val adapter: PokemonEvolutionaryAdapter by lazy {
+        PokemonEvolutionaryAdapter(listOf(), this@PokemonEvolutionaryLineFragment)
+    }
+    override fun getViewModelClass() = PokemonEvolutionaryLineViewModel::class.java
+    override fun getViewBinding() = FragmentPokemonEvolutionaryLineBinding.inflate(layoutInflater)
+    override fun onButtonClick(data: String) {
+
     }
 
-    private lateinit var viewModel: PokemonEvolutionaryLineViewModel
+    override fun setUpViews() {
+        super.setUpViews()
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_pokemon_evolutionary_line, container, false)
+        binding.rcvInspectionHistory.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcvInspectionHistory.adapter = adapter
+
+        sharedViewModel.uiPokemonEvolutionChainState.chain.let {
+            val list = mutableListOf<String>()
+            list.add(it.species.name)
+            if(it.evolves_to.isNotEmpty()){
+                it.evolves_to.forEach {evolves ->
+                    list.add(evolves.species.name)
+                    if(evolves.evolves_to.isNotEmpty()){
+                        evolves.evolves_to.forEach{evolves2 ->
+                            list.add(evolves2.species.name)
+                        }
+                    }
+                }
+
+            }
+
+            showPokemonEvolutionary(list)
+        }
+
+        binding.btnToList.setOnClickListener {
+            findNavController().navigate(
+                R.id.goToPokemonListFragment
+            )
+        }
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PokemonEvolutionaryLineViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun showPokemonEvolutionary(listHistory: List<String>) = with(binding) {
+        adapter.setList(listHistory)
     }
+
 
 }

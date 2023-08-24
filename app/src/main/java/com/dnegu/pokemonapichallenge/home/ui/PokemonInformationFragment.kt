@@ -37,7 +37,9 @@ class PokemonInformationFragment : BaseFragment<FragmentPokemonInformationBindin
         }
 
         btnEvolutionaryLine.setOnClickListener {
-            val pokemonId = sharedViewModel.uiPokemonInformationState.evolution_chain.url.substringAfterLast("/")
+            val url = sharedViewModel.uiPokemonInformationState.evolution_chain.url
+            val array = url.split("/")
+            val pokemonId = array[array.size-2]
             viewModel.getEvolutionaryChain(pokemonId)
         }
 
