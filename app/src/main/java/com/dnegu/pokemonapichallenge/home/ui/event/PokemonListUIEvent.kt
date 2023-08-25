@@ -5,6 +5,7 @@ import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonList
 
 sealed class PokemonListUIEvent{
     data class Success(val listHistory: List<PokemonList>) : PokemonListUIEvent()
+    data class SuccessFavorite(val listHistory: List<PokemonList>) : PokemonListUIEvent()
     data class SuccessPokemonInformation(val pokemonInformation: PokemonInformationResponse) : PokemonListUIEvent()
     object Error : PokemonListUIEvent()
     object ShowLoading : PokemonListUIEvent()

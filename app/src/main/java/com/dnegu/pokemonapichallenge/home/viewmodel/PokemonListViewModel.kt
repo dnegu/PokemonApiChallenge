@@ -1,9 +1,9 @@
 package com.dnegu.pokemonapichallenge.home.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dnegu.pokemonapichallenge.home.ui.event.PokemonListUIEvent
+import com.dnegu.pokemonapichallenge.home.usecases.GetPokemonFavoriteUseCase
 import com.dnegu.pokemonapichallenge.home.usecases.GetPokemonInformationUseCase
 import com.dnegu.pokemonapichallenge.home.usecases.GetPokemonListUseCase
 import com.dnegu.pokemonapichallenge.home.utils.launch
@@ -18,9 +18,11 @@ class PokemonListViewModel @Inject
 constructor(
     private val getPokemonListUseCase: GetPokemonListUseCase,
     private val getPokemonInformationUseCase: GetPokemonInformationUseCase,
+    private val getPokemonFavoriteUseCase: GetPokemonFavoriteUseCase,
 ): ViewModel() {
     init {
         getPokemonList(151)
+        getPokemonFavorite()
     }
 
     private val _listHistory = MutableSharedFlow<PokemonListUIEvent>()
@@ -47,6 +49,20 @@ constructor(
                 getPokemonInformationUseCase(name)
             }.onSuccess { listNewChecklist ->
                 _listHistory.emit(PokemonListUIEvent.SuccessPokemonInformation(listNewChecklist))
+            }.onFailure {
+                _listHistory.emit(PokemonListUIEvent.Error)
+            }
+        }
+        _listHistory.emit(PokemonListUIEvent.HideLoading)
+    }
+
+    private fun getPokemonFavorite() = launch {
+        _listHistory.emit(PokemonListUIEvent.ShowLoading)
+        viewModelScope.launch {
+            runCatching {
+                getPokemonFavoriteUseCase()
+            }.onSuccess { listNewChecklist ->
+                _listHistory.emit(PokemonListUIEvent.SuccessFavorite(listNewChecklist))
             }.onFailure {
                 _listHistory.emit(PokemonListUIEvent.Error)
             }

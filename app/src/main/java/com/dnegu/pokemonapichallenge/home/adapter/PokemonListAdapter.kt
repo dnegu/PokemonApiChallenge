@@ -37,7 +37,13 @@ class PokemonListAdapter(private var historyList: List<PokemonList>, private var
 
     class BookCoursesHistoryHolder(private val itemBinding: RowPokemonListBinding) : RecyclerView.ViewHolder(itemBinding.root) {
         fun bind(pokemonList: PokemonList, buttonClickListener: OnButtonClickListener? = null) = with(itemBinding){
-            tvNamePokemon.text = pokemonList.name
+            tvNamePokemon.text = if(pokemonList.favorite == 1){
+                "Favorito - ${pokemonList.name}"
+            } else if(pokemonList.favorite == 2){
+                "Error - ${pokemonList.name}"
+            } else {
+                pokemonList.name
+            }
             clRow.setOnClickListener {
                 buttonClickListener?.onButtonClick(pokemonList)
             }

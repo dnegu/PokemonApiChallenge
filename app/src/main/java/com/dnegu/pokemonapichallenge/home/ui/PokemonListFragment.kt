@@ -2,6 +2,7 @@ package com.dnegu.pokemonapichallenge.home.ui
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.CountDownTimer
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +31,11 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
     private val adapter: PokemonListAdapter by lazy {
-        PokemonListAdapter(listOf(), this@PokemonListFragment)
+        PokemonListAdapter(listAdapter, this@PokemonListFragment)
     }
+    private var favoriteList  = listOf<PokemonList>()
+    private var listAdapter  = listOf<PokemonList>()
+    private var listAdapterOrigin  = listOf<PokemonList>()
     override fun getViewModelClass() = PokemonListViewModel::class.java
     override fun getViewBinding() = FragmentPokemonListBinding.inflate(layoutInflater)
 
@@ -57,7 +61,9 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
                     }
                     is PokemonListUIEvent.Success -> {
                         val list = event.listHistory
-                        showPokemonList(list)
+                        listAdapter = list
+                        listAdapterOrigin = list
+                        showPokemonList(listAdapter)
                     }
                     is PokemonListUIEvent.SuccessPokemonInformation -> {
                         sharedViewModel.setPokemonInformation(event.pokemonInformation)
@@ -65,9 +71,28 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
                             R.id.action_pokemonListFragment_to_pokemonInformationFragment
                         )
                     }
+                    is PokemonListUIEvent.SuccessFavorite -> {
+                        favoriteList = event.listHistory
+                        updatePokemonEvolutionary(favoriteList)
+                    }
                 }
             }
         }
+
+        val fiveSecondInMillis: Long = 5000
+        val countDownInterval: Long = 1000
+
+        object : CountDownTimer(fiveSecondInMillis, countDownInterval) {
+            override fun onTick(millisUntilFinished: Long) {
+                val secondsRemaining = millisUntilFinished / 1000
+                println("Segundos restantes: $secondsRemaining")
+            }
+
+            override fun onFinish() {
+                updatePokemonEvolutionary(favoriteList,true)
+                println("¡Temporizador completado!")
+            }
+        }.start()
     }
 
     private fun showPokemonList(listHistory: List<PokemonList>) = with(binding) {
@@ -77,6 +102,18 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
     override fun onButtonClick(data: PokemonList) {
         sharedViewModel.setPokemonName(data.name)
         viewModel.getPokemonInformation(sharedViewModel.uiState)
+    }
+
+    private fun updatePokemonEvolutionary(listHistory: List<PokemonList>, noChange: Boolean = false) = with(binding) {
+        val favoritos = listHistory.map { it.name }
+        val indices = listAdapter.mapIndexedNotNull { index, item ->
+            if (item.name in favoritos) index else null
+        }
+        indices.forEach {
+            val favorite = listHistory.first {item -> listAdapter[it].name == item.name }.favorite
+            listAdapter[it].favorite = if (!noChange) favorite else 0
+            adapter.notifyItemChanged(it)
+        }
     }
 
 }

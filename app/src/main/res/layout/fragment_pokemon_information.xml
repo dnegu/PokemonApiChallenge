@@ -11,7 +11,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textSize="24sp"
         android:text="Pokemon Information"
+        android:textColor="#673AB7"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,6 +26,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Pokemon"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
@@ -35,6 +39,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Felicidad base"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle2" />
@@ -46,6 +51,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Ratio de captura"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle3" />
@@ -57,6 +63,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Color"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle4" />
@@ -68,6 +75,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:text="Grupos de huevo"
+        android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@+id/gl50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTitle5" />
@@ -77,6 +85,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Charmander"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle2"
         app:layout_constraintTop_toTopOf="@+id/tvTitle2" />
@@ -86,6 +95,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="70"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle2"
         app:layout_constraintTop_toTopOf="@+id/tvTitle3" />
@@ -95,6 +105,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="45"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle2"
         app:layout_constraintTop_toTopOf="@+id/tvTitle4" />
@@ -104,6 +115,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Red"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle2"
         app:layout_constraintTop_toTopOf="@+id/tvTitle5" />
@@ -113,6 +125,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Monster, Dragon"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/tvTitle2"
         app:layout_constraintTop_toTopOf="@+id/tvTitle6" />
@@ -129,19 +142,23 @@
 
     <Button
         android:id="@+id/btnEvolutionaryLine"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:text="To Evolutionary Line"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnSkills"/>
 
     <Button
         android:id="@+id/btnSkills"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="16dp"
         android:text="To Skills"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
