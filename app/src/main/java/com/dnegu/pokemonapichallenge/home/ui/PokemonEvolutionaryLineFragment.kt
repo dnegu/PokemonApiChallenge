@@ -8,11 +8,13 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dnegu.pokemonapichallenge.MainActivity
 import com.dnegu.pokemonapichallenge.R
 import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonEvolutionaryLineBinding
 import com.dnegu.pokemonapichallenge.home.adapter.PokemonEvolutionaryAdapter
 import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonList
 import com.dnegu.pokemonapichallenge.home.ui.event.PokemonEvolutionaryUIEvent
+import com.dnegu.pokemonapichallenge.home.ui.event.PokemonInformationUIEvent
 import com.dnegu.pokemonapichallenge.home.utils.BaseFragment
 import com.dnegu.pokemonapichallenge.home.viewmodel.PokemonEvolutionaryLineViewModel
 import com.dnegu.pokemonapichallenge.home.viewmodel.SharedViewModel
@@ -120,14 +122,15 @@ class PokemonEvolutionaryLineFragment :
                             adapter.notifyItemChanged(indice)
                         }
                     }
-                    PokemonEvolutionaryUIEvent.HideLoading -> {
-
-                    }
                     PokemonEvolutionaryUIEvent.ShowLoading -> {
-
+                        (requireActivity() as MainActivity).setLoading(true)
+                    }
+                    PokemonEvolutionaryUIEvent.HideLoading -> {
+                        (requireActivity() as MainActivity).setLoading(false)
                     }
                     PokemonEvolutionaryUIEvent.Error -> {
-
+                        Toast.makeText(requireContext(), "Ocurrio un error", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }
             }

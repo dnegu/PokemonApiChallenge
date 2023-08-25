@@ -2,10 +2,12 @@ package com.dnegu.pokemonapichallenge.home.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.dnegu.pokemonapichallenge.MainActivity
 import com.dnegu.pokemonapichallenge.R
 import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonInformationBinding
 import com.dnegu.pokemonapichallenge.home.ui.event.PokemonInformationUIEvent
@@ -53,9 +55,16 @@ class PokemonInformationFragment : BaseFragment<FragmentPokemonInformationBindin
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.pokemonInformationEvent.flowWithLifecycle(lifecycle).collectLatest { event ->
                 when (event) {
-                    PokemonInformationUIEvent.ShowLoading -> {}
-                    PokemonInformationUIEvent.HideLoading -> {}
-                    PokemonInformationUIEvent.Error -> {}
+                    PokemonInformationUIEvent.ShowLoading -> {
+                        (requireActivity() as MainActivity).setLoading(true)
+                    }
+                    PokemonInformationUIEvent.HideLoading -> {
+                        (requireActivity() as MainActivity).setLoading(false)
+                    }
+                    PokemonInformationUIEvent.Error -> {
+                        Toast.makeText(requireContext(), "Ocurrio un error", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                     is PokemonInformationUIEvent.SuccessEvolutionary -> {
                         sharedViewModel.setPokemonEvolutionChain(event.pokemonEvolutionChainResponse)
                         findNavController().navigate(

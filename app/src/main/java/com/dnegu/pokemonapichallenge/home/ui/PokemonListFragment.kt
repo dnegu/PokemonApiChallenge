@@ -7,12 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.dnegu.pokemonapichallenge.R
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dnegu.pokemonapichallenge.MainActivity
 import com.dnegu.pokemonapichallenge.databinding.FragmentPokemonListBinding
 import com.dnegu.pokemonapichallenge.home.adapter.PokemonListAdapter
 import com.dnegu.pokemonapichallenge.home.data.model.response.PokemonList
@@ -44,6 +46,12 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
 
         binding.rcvInspectionHistory.layoutManager = LinearLayoutManager(requireContext())
         binding.rcvInspectionHistory.adapter = adapter
+
+        binding.textView.setOnClickListener{
+            (requireActivity() as MainActivity).setLoading(true)
+            Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT)
+                .show()
+        }
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,13 +59,14 @@ class PokemonListFragment : BaseFragment<FragmentPokemonListBinding,PokemonListV
             viewModel.listHistory.flowWithLifecycle(lifecycle).collectLatest { event ->
                 when(event){
                     PokemonListUIEvent.ShowLoading -> {
-
+                        (requireActivity() as MainActivity).setLoading(true)
                     }
                     PokemonListUIEvent.HideLoading -> {
-
+                        (requireActivity() as MainActivity).setLoading(false)
                     }
                     PokemonListUIEvent.Error -> {
-
+                        Toast.makeText(requireContext(), "Ocurrio un error", Toast.LENGTH_SHORT)
+                            .show()
                     }
                     is PokemonListUIEvent.Success -> {
                         val list = event.listHistory

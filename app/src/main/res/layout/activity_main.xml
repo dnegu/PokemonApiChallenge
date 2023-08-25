@@ -14,4 +14,15 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/navigation_pokemon_api" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clLoader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <include
+            android:id="@+id/loader"
+            layout="@layout/loader"
+            android:visibility="visible" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

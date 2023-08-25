@@ -2,6 +2,7 @@ package com.dnegu.pokemonapichallenge
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.fragment.NavHostFragment
 import com.dnegu.pokemonapichallenge.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,5 +30,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun setLoading(isLoading: Boolean) {
+        if(isLoading)
+            binding.clLoader.visibility = View.VISIBLE
+        else
+            binding.clLoader.visibility = View.GONE
     }
 }
